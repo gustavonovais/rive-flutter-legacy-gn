@@ -11,7 +11,8 @@ class Fill extends FillBase {
   @override
   Paint makePaint() => Paint()..style = PaintingStyle.fill;
 
-  PathFillType get fillType => PathFillType.values[fillRule];
+  FillType get fillType =>
+    _fillType < FillType.values.length ? FillType.values[_fillType] : FillType.solid;
   set fillType(PathFillType type) => fillRule = type.index;
 
   @override
