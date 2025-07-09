@@ -1,29 +1,27 @@
-import 'dart:ui';
-
+import 'dart:ui' show PathFillType;
+import 'package:flutter/material.dart';
 import 'package:rive/src/generated/shapes/paint/fill_base.dart';
 import 'package:rive/src/rive_core/component_dirt.dart';
 import 'package:rive/src/rive_core/shapes/shape_paint_container.dart';
-
 export 'package:rive/src/generated/shapes/paint/fill_base.dart';
 
-/// A fill Shape painter.
 class Fill extends FillBase {
   @override
   Paint makePaint() => Paint()..style = PaintingStyle.fill;
 
-  FillType get fillType =>
-    _fillType < FillType.values.length ? FillType.values[_fillType] : FillType.solid;
-  set fillType(PathFillType type) => fillRule = type.index;
+  PathFillType get fillType =>
+      (fillRule < PathFillType.values.length)
+          ? PathFillType.values[fillRule]
+          : PathFillType.nonZero;     // sólido quando vier 2
+
+  set fillType(PathFillType t) => fillRule = t.index;
 
   @override
   void fillRuleChanged(int from, int to) =>
       parent?.addDirt(ComponentDirt.paint);
 
   @override
-  void update(int dirt) {
-    // Intentionally empty, fill doesn't update.
-    // Because Fill never adds dependencies, it'll also never get called.
-  }
+  void update(int _) {}
 
   @override
   void onAdded() {
@@ -35,9 +33,7 @@ class Fill extends FillBase {
 
   @override
   void draw(Canvas canvas, Path path) {
-    if (!isVisible || renderOpacity == 0) {
-      return;
-    }
+    if (!isVisible || renderOpacity == 0) return;
     path.fillType = fillType;
     canvas.drawPath(path, paint);
   }
