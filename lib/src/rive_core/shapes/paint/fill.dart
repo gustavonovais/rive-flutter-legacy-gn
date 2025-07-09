@@ -1,4 +1,3 @@
-import 'dart:ui' show PathFillType;
 import 'package:flutter/material.dart';
 import 'package:rive/src/generated/shapes/paint/fill_base.dart';
 import 'package:rive/src/rive_core/component_dirt.dart';
